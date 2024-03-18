@@ -1,44 +1,61 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 
-const Books = () => {
-  const [books, setBooks] = useState(null);
+const BooksFunction = () => {
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchBooks = async () => {
+    try {
+      const res = await fetch("http://localhost:3030/books");
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await res.json();
+      setBooks(data.books);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setError("An error occurred while fetching data");
+      setLoading(false);
+    }
+  };
+  
 
   useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const res = await axios.get("http://localhost:3030/books");
-        setBooks(res.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
     fetchBooks();
   }, []);
-  console.log(Books)
-
+  
+  console.log("Books:", books);
+  
   return (
     <Container>
       <Row>
-        {books?.map((book) => (
-          <Col key={book._id}>
-            <Card style={{ width: "18rem" }}>
-              <Card.Img variant="top" src={book.cover} />
-              <Card.Body>
-                <Card.Title>{book.title}</Card.Title>
-                <Card.Text>
-                  {book.author}
-                </Card.Text>
-                <Button variant="primary">Delete</Button>
-                <Button variant="primary">Modify</Button>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
+        {loading ? (
+          <div>Loading...</div>
+        ) : error ? (
+          <div>{error}</div>
+        ) : (
+          books.map((book) => (
+            <Col key={book._id}>
+              <Card style={{ width: "18rem" }}>
+                <Card.Img variant="top" src={book.cover} />
+                <Card.Body>
+                  <Card.Title>{book.title}</Card.Title>
+                  <Card.Text>{book.author}</Card.Text>
+                  <Card.Text>{book.description}</Card.Text>
+                  <Button variant="primary">Delete</Button>
+                  <Button variant="primary">Modify</Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))
+        )}
       </Row>
     </Container>
   );
+  
 };
 
-export default Books;
+export default BooksFunction;
