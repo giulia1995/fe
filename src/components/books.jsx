@@ -21,14 +21,11 @@ const BooksFunction = () => {
       setLoading(false);
     }
   };
-  
 
   useEffect(() => {
     fetchBooks();
   }, []);
-  
-  console.log("Books:", books);
-  
+
   return (
     <Container>
       <Row>
@@ -38,15 +35,16 @@ const BooksFunction = () => {
           <div>{error}</div>
         ) : (
           books.map((book) => (
-            <Col key={book._id}>
-              <Card style={{ width: "18rem" }}>
+            <Col className="col-3" key={book._id}>
+              <Card className="my-3" style={{ width: "18rem" }}>
                 <Card.Img variant="top" src={book.cover} />
                 <Card.Body>
                   <Card.Title>{book.title}</Card.Title>
                   <Card.Text>{book.author}</Card.Text>
                   <Card.Text>{book.description}</Card.Text>
-                  <Button variant="primary">Delete</Button>
-                  <Button variant="primary">Modify</Button>
+                  <Card.Text>{book.price.$numberDecimal}&euro;</Card.Text>
+                  <Button className="me-1" variant="danger">Delete</Button>
+                  <Button className="me-1" variant="warning">Modify</Button>
                 </Card.Body>
               </Card>
             </Col>
@@ -55,7 +53,6 @@ const BooksFunction = () => {
       </Row>
     </Container>
   );
-  
 };
 
 export default BooksFunction;
