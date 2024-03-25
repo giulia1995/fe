@@ -1,12 +1,12 @@
 import './App.css';
-import Home from './pages/Home';
-import ProtectedRoutes from "../src/middlewares/protectedRoutes";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Home from './pages/Home';
 import Login from './pages/Login';
+import ProtectedRoutes from "../src/middlewares/protectedRoutes";
 
 
 
-function App() {
+const App = () => {
   return (
     <Router>
             <Routes>
@@ -16,7 +16,7 @@ function App() {
                 </Route>
             </Routes>
         </Router>
-  );
+  )
 }
 
 export default App;

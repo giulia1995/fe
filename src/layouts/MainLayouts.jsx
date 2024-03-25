@@ -1,6 +1,7 @@
 import React from 'react'
-import Footer from '../components/Footer'
 import MyNav from '../components/MyNav'
+import Footer from '../components/Footer'
+
 
 const MainLayout = ({ children }) => {
     return (
