@@ -35,8 +35,8 @@ const BooksFunction = () => {
           <div>{error}</div>
         ) : (
           books.map((book) => (
-            <Col className="col-3" key={book._id}>
-              <Card className="my-3" style={{ width: "18rem" }}>
+            <Col className="col " key={book._id}>
+              <Card className="mt-4" style={{ width: "18rem" }}>
                 <Card.Img variant="top" src={book.cover} />
                 <Card.Body>
                   <Card.Title>{book.title}</Card.Title>

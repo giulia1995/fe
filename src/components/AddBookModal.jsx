@@ -24,7 +24,7 @@ const AddBookModal = () => {
         fileData.append('uploadImg', file)
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/books/cloudUploadImg`, {
+            const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}books/cloudUploadImg`, {
                 method: 'POST',
                 body: fileData
             })
@@ -43,7 +43,7 @@ const AddBookModal = () => {
                     ...formData,
                     cover: uploadedFile.source
                 }
-                const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/books/create`,{
+                const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}books/create`,{
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -63,54 +63,62 @@ const AddBookModal = () => {
             style={{display: 'block', position: 'initial'}}
         >
             <Modal.Dialog>
-                <Modal.Header closeButton>
-                    <Modal.Title>Modal title</Modal.Title>
-                </Modal.Header>
+               
+                    <Modal.Title className='mx-4 mt-3'>Aggiungi un nuovo libro</Modal.Title>
+             
 
                 <Modal.Body>
                     <form encType="multipart/form-data" onSubmit={submitBook}>
                         <input
+                        className='m-2'
                             onChange={onChangeHandleInput}
                             name="author"
                             type="text"
                             placeholder="inserisci autore"
                         />
                         <input
+                        className='m-2'
                             onChange={onChangeHandleInput}
                             name="title"
                             type="text"
                             placeholder="inserisci titolo"
                         />
                         <input
+                        className='m-2'
                             onChange={onChangeHandleInput}
                             name="editor"
                             type="text"
                             placeholder="inserisci editore"
                         />
                         <input
+                        className='m-2'
                             onChange={onChangeHandleFile}
                             type="file"
                             name="uploadImg"
                         />
                         <input
+                        className='m-2'
                             onChange={onChangeHandleInput}
                             type="text"
                             name="price"
                             placeholder="inserisci prezzo"
                         />
                         <input
+                        className='m-2'
                             onChange={onChangeHandleInput}
                             type="text"
                             name="description"
                             placeholder="inserisci descrizione"
                         />
                         <input
+                        className='m-2'    
                             onChange={onChangeHandleInput}
-                            type="datetime-local"
+                            type="datetime"
                             name="pubDate"
                             placeholder="inserisci data"
                         />
                         <select
+                        className='m-2'
                             onChange={onChangeHandleInput}
                             name="isFeatured"
                         >
@@ -120,7 +128,7 @@ const AddBookModal = () => {
                         </select>
                         <button
                             type="submit"
-                            className="btn btn-primary pt-2"
+                            className="btn btn-primary pt-2 m-2"
                         >
                             Aggiungi Libro
                         </button>
