@@ -40,7 +40,7 @@ const BooksFunction = () => {
                 <Card.Img variant="top" src={book.cover} />
                 <Card.Body>
                   <Card.Title>{book.title}</Card.Title>
-                  <Card.Text>{book.author}</Card.Text>
+                  <Card.Text>{book.author.firstName}</Card.Text>
                   <Card.Text>{book.description}</Card.Text>
                   <Card.Text>{book.price.$numberDecimal}&euro;</Card.Text>
                   <Button className="me-1" variant="danger">Delete</Button>

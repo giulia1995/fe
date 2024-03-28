@@ -24,7 +24,7 @@ const AddBookModal = () => {
         fileData.append('uploadImg', file)
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}books/cloudUploadImg`, {
+            const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/books/cloudUploadImg`, {
                 method: 'POST',
                 body: fileData
             })
@@ -43,7 +43,7 @@ const AddBookModal = () => {
                     ...formData,
                     cover: uploadedFile.source
                 }
-                const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}books/create`,{
+                const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/books/create`,{
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
