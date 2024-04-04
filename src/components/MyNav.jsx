@@ -2,33 +2,25 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import AddBookModal from './AddBookModal';
-import React , {useState} from "react";
-
+import React from "react";
+import { LiaSwatchbookSolid } from "react-icons/lia";
 
 const MyNav = () => {
-  const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false)
-    
-    const toggleAddBookModal = () => setIsAddBookModalOpen(!isAddBookModalOpen)
+
   return (
     <>
       <Navbar bg="dark" data-bs-theme="dark">
         <Container>
           <div className='d-flex'>
-          <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+          <Navbar.Brand  href="#home"><LiaSwatchbookSolid />EpiBooks</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="/home">Home</Nav.Link>
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
           </Nav>
           </div>
-          <button
-          onClick={toggleAddBookModal} 
-          className='btn btn-primary'>Aggiungi un Libro</button>
+         <AddBookModal/>
         </Container>
       </Navbar>
-      {isAddBookModalOpen && (
-                <AddBookModal />
-            )}
+      
     </>
   );
 }

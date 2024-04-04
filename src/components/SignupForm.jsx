@@ -14,9 +14,9 @@ const SignupForm = ({ toggleForm }) => {
     }
 
     const onSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
         try {
-            return await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}createUser`, {
+            return await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/createUser`,{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
