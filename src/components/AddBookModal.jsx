@@ -1,63 +1,79 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import Alert from "react-bootstrap/Alert";
 
 const AddBookModal = () => {
-  const [file, setFile] = useState(null)
-  const [formData, setFormData] = useState({})
-  console.log(file)
-  console.log(formData)
-
+  const [file, setFile] = useState(null);
+  const [formData, setFormData] = useState({});
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [errorAlert, setErrorAlert] = useState(false); 
   const onChangeHandleFile = (e) => {
-      setFile(e.target.files[0])
-  }
+    setFile(e.target.files[0]);
+  };
 
   const onChangeHandleInput = (e) => {
-      const { name, value } = e.target
-      const parsedValue = name === "price" ? Number(value) : value
-      setFormData({
-          ...formData,
-          [name]: parsedValue,
-      })
-  }
+    const { name, value } = e.target;
+    const parsedValue = name === "price" ? Number(value) : value;
+    setFormData({
+      ...formData,
+      [name]: parsedValue,
+    });
+  };
 
   const uploadFile = async () => {
-      const fileData = new FormData();
-      fileData.append('uploadImg', file)
+    const fileData = new FormData();
+    fileData.append("uploadImg", file);
 
-      try {
-          const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/books/cloudUploadImg`, {
-              method: 'POST',
-              body: fileData
-          })
-          return await response.json()
-      } catch (e) {
-          console.log(e.message)
-      }
-  }
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_SERVER_BASE_URL}/books/cloudUploadImg`,
+        {
+          method: "POST",
+          body: fileData,
+        }
+      );
+      return await response.json();
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
 
   const submitBook = async (e) => {
-      e.preventDefault();
-      if (file) {
-          try {
-              const uploadedFile = await uploadFile(file)
-              const bodyToSend = {
-                  ...formData,
-                  cover: uploadedFile.source
-              }
-              const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/books/create`,{
-                  method: 'POST',
-                  headers: {
-                      'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify(bodyToSend)
-              })
-              return await response.json()
-          } catch (e) {
-              console.log(e.message)
+    e.preventDefault();
+    if (file) {
+      try {
+        const uploadedFile = await uploadFile(file);
+        const bodyToSend = {
+          ...formData,
+          cover: uploadedFile.source,
+        };
+        const response = await fetch(
+          `${process.env.REACT_APP_SERVER_BASE_URL}/books/create`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(bodyToSend),
           }
+        );
+        const data = await response.json();
+        if (response.ok) {
+          setAlertMessage("Libro aggiunto correttamente!");
+          setShowAlert(true);
+          setErrorAlert(false); 
+        } else {
+          setAlertMessage(data.error || "Si è verificato un errore, controlla che i campi siano tutti compilati correttamente!");
+          setShowAlert(true);
+          setErrorAlert(true); 
+        }
+      } catch (e) {
+        console.log(e.message);
       }
-  }
+    }
+  };
 
   const [show, setShow] = useState(false);
 
@@ -81,21 +97,21 @@ const AddBookModal = () => {
               onChange={onChangeHandleInput}
               name="author"
               type="text"
-              placeholder="inserisci autore"
+              placeholder="Inserisci autore"
             />
             <input
               className="m-2"
               onChange={onChangeHandleInput}
               name="title"
               type="text"
-              placeholder="inserisci titolo"
+              placeholder="Inserisci titolo"
             />
             <input
               className="m-2"
               onChange={onChangeHandleInput}
               name="editor"
               type="text"
-              placeholder="inserisci editore"
+              placeholder="Inserisci editore"
             />
             <input
               className="m-2"
@@ -108,28 +124,28 @@ const AddBookModal = () => {
               onChange={onChangeHandleInput}
               type="text"
               name="price"
-              placeholder="inserisci prezzo"
+              placeholder="Inserisci prezzo(cifra)"
             />
             <input
               className="m-2"
               onChange={onChangeHandleInput}
               type="text"
               name="description"
-              placeholder="inserisci descrizione"
+              placeholder="Inserisci descrizione"
             />
             <input
               className="m-2"
               onChange={onChangeHandleInput}
               type="datetime"
               name="pubDate"
-              placeholder="inserisci data"
+              placeholder="Inserisci data"
             />
             <select
               className="m-2"
               onChange={onChangeHandleInput}
               name="isFeatured"
             >
-              <option selected disabled>
+              <option value="" disabled selected>
                 Scegli opzione Featured
               </option>
               <option value="true">Featured</option>
@@ -146,6 +162,22 @@ const AddBookModal = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      <Alert
+        show={showAlert}
+        variant={errorAlert ? "danger" : "success"} 
+        onClose={() => setShowAlert(false)}
+        dismissible
+        style={{
+          position: "fixed",
+          bottom: 10,
+          left: "50%",
+          transform: "translateX(-50%)",
+          zIndex: 9999,
+        }}
+      >
+        {alertMessage}
+      </Alert>
     </>
   );
 };
