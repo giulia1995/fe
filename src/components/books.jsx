@@ -8,7 +8,7 @@ const BooksFunction = () => {
 
   const fetchBooks = async () => {
     try {
-      const res = await fetch(`http://localhost:3030/books`);
+      const res = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/books`);
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }
