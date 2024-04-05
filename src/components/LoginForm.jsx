@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import AxiosClient from "../client/client";
 import {useNavigate} from "react-router-dom";
+import { FaGithub } from "react-icons/fa";
 
 const LoginForm = ({ toggleForm }) => {
     const [formData, setFormData] = useState({})
@@ -26,6 +27,10 @@ const LoginForm = ({ toggleForm }) => {
             ...formData,
             [name]: value
         })
+    }
+
+    const handleLoginWithGithub = () => {
+        window.location.href =`${process.env.REACT_APP_SERVER_BASE_URL}/auth/github`
     }
 
     return (
@@ -81,6 +86,12 @@ const LoginForm = ({ toggleForm }) => {
                     Registrati ora!
                 </a>
             </div>
+            <button
+                    onClick={handleLoginWithGithub}
+                    className="text-center btn btn-dark fw-bold w-100"
+                >
+                    Oppure accedi con GitHub <FaGithub />
+                </button>
         </form>
     );
 };
