@@ -140,17 +140,7 @@ const AddBookModal = () => {
               name="pubDate"
               placeholder="Inserisci data"
             />
-            <select
-              className="m-2"
-              onChange={onChangeHandleInput}
-              name="isFeatured"
-            >
-              <option value="" disabled selected>
-                Scegli opzione Featured
-              </option>
-              <option value="true">Featured</option>
-              <option value="false">Not Featured</option>
-            </select>
+          
             <button type="submit" className="btn btn-primary pt-2 m-2">
               Aggiungi Libro
             </button>
@@ -170,7 +160,7 @@ const AddBookModal = () => {
         dismissible
         style={{
           position: "fixed",
-          bottom: 10,
+          bottom: 250,
           left: "50%",
           transform: "translateX(-50%)",
           zIndex: 9999,

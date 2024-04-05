@@ -22,29 +22,45 @@ const BooksFunction = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      const res = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/books/delete/${id}`, {
+        method: 'DELETE',
+      });
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+     
+      setBooks(books.filter(book => book._id !== id));
+    
+      window.alert('Libro eliminato con successo');
+    } catch (error) {
+      console.error('Error deleting book:', error);
+    }
+  };
+
   useEffect(() => {
     fetchBooks();
   }, []);
 
   return (
     <Container>
-      <Row>
+      <Row className="d-flex">
         {loading ? (
           <div>Loading...</div>
         ) : error ? (
           <div>{error}</div>
         ) : (
           books.map((book) => (
-            <Col className="col " key={book._id}>
-              <Card className="mt-4" style={{ width: "18rem" }}>
+            <Col className="col-lg-3 col-md-6 col-sm-12 mb-4" key={book._id}>
+              <Card className="mt-5 h-100 shadow-lg p-3 bg-body-tertiary rounded" style={{ width: "18rem" }}>
                 <Card.Img variant="top" src={book.cover} />
-                <Card.Body>
+                <Card.Body className="d-flex flex-column">
                   <Card.Title>{book.title}</Card.Title>
                   <Card.Text>{book.author}</Card.Text>
                   <Card.Text>{book.description}</Card.Text>
                   <Card.Text>{book.price.$numberDecimal}&euro;</Card.Text>
-                  <Button className="me-1" variant="danger">Delete</Button>
-                  <Button className="me-1" variant="warning">Modify</Button>
+                  <Button className="me-1 mt-auto" variant="danger" onClick={() => handleDelete(book._id)}>Delete</Button>
                 </Card.Body>
               </Card>
             </Col>

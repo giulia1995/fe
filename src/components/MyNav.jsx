@@ -17,7 +17,7 @@ const MyNav = () => {
             <Nav.Link href="/home">Home</Nav.Link>
           </Nav>
           </div>
-         <AddBookModal/>
+          <AddBookModal/>
         </Container>
       </Navbar>
       
