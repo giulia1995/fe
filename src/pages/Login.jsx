@@ -12,7 +12,7 @@ const Login = () => {
             <div className="row d-flex justify-content-center">
                 <div className="col-md-5 col-lg-5">
                     <h2 className="text-center text-dark mt-5">
-                        Epibooks Login
+                        Epibook Login
                     </h2>
                     <div className="card my-5">
                         {showSignupForm ? (
