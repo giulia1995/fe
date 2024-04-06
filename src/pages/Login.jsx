@@ -5,7 +5,8 @@ import SignupForm from "../components/SignupForm";
 const Login = () => {
     const containerStyle={
         backgroundImage:`url("https://orgoglionerd.it/wp-content/uploads/2020/12/libri-natale.jpg")`,
-        backgroundSize: `cover`
+        backgroundSize: `cover`,
+        height: `100vh`
     }
     const [showSignupForm, setShowSignupForm] = useState(false)
 

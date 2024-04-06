@@ -5,19 +5,28 @@ import { FaGithub } from "react-icons/fa";
 
 const LoginForm = ({ toggleForm }) => {
   const [formData, setFormData] = useState({});
+  const [error, setError] = useState(null); 
 
   const client = new AxiosClient();
   const navigate = useNavigate();
 
   const onSubmit = async (e) => {
-    e.preventDefault();
-    const response = await client.post("/login", formData);
-    console.log(response.token);
-    if (response.token) {
-      localStorage.setItem("auth", JSON.stringify(response.token));
-      setTimeout(() => {
-        navigate("/home");
-      }, 1500);
+    try {
+      e.preventDefault();
+      const response = await client.post("/login", formData);
+      console.log(response.token);
+      if (response.token) {
+        localStorage.setItem("auth", JSON.stringify(response.token));
+        setTimeout(() => {
+          navigate("/home");
+        }, 1500);
+      }
+    } catch (error) {
+      console.error(
+        "Si è verificato un errore durante la richiesta di login:",
+        error
+      );
+      setError("Credenziali non valide. Riprova.");
     }
   };
 
@@ -32,10 +41,31 @@ const LoginForm = ({ toggleForm }) => {
   const handleLoginWithGithub = () => {
     window.location.href = `${process.env.REACT_APP_SERVER_BASE_URL}/auth/github`;
   };
+  const [showError, setShowError] = useState(true);
+
+  const handleCloseError = () => {
+    setShowError(false);
+  };
+  const alertStyle = {
+    position: "absolute",
+    top: "550px",
+    left: "45px",
+  };
 
   return (
     <>
       <h2 className="text-center text-primary mt-5 fw-bold">Epibook Login</h2>
+      {error && showError && (
+        <div style={alertStyle} className="alert alert-danger" role="alert">
+          {error}
+          <button
+            type="button"
+            className="btn-close"
+            aria-label="Chiudi"
+            onClick={handleCloseError}
+          ></button>
+        </div>
+      )}
       <form onSubmit={onSubmit} className="card-body p-lg-5">
         <div className="text-center">
           <img
@@ -84,6 +114,7 @@ const LoginForm = ({ toggleForm }) => {
           </a>
         </div>
         <button
+          type="button"
           onClick={handleLoginWithGithub}
           className="text-center btn btn-dark fw-bold w-100"
         >
