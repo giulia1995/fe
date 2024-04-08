@@ -3,16 +3,21 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Alert from "react-bootstrap/Alert";
 
+// Component for adding a new book
 const AddBookModal = () => {
+  // State variables for managing form inputs, file, and alerts
   const [file, setFile] = useState(null);
   const [formData, setFormData] = useState({});
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
-  const [errorAlert, setErrorAlert] = useState(false); 
+  const [errorAlert, setErrorAlert] = useState(false);
+
+  // Event handler for selecting a file
   const onChangeHandleFile = (e) => {
     setFile(e.target.files[0]);
   };
 
+  // Event handler for updating form inputs
   const onChangeHandleInput = (e) => {
     const { name, value } = e.target;
     const parsedValue = name === "price" ? Number(value) : value;
@@ -22,6 +27,7 @@ const AddBookModal = () => {
     });
   };
 
+  // Function to upload file to the server
   const uploadFile = async () => {
     const fileData = new FormData();
     fileData.append("uploadImg", file);
@@ -40,6 +46,7 @@ const AddBookModal = () => {
     }
   };
 
+  // Function to submit the book form
   const submitBook = async (e) => {
     e.preventDefault();
     if (file) {
@@ -63,11 +70,14 @@ const AddBookModal = () => {
         if (response.ok) {
           setAlertMessage("Libro aggiunto correttamente!");
           setShowAlert(true);
-          setErrorAlert(false); 
+          setErrorAlert(false);
         } else {
-          setAlertMessage(data.error || "Si è verificato un errore, controlla che i campi siano tutti compilati correttamente!");
+          setAlertMessage(
+            data.error ||
+              "Si è verificato un errore, controlla che i campi siano tutti compilati correttamente!"
+          );
           setShowAlert(true);
-          setErrorAlert(true); 
+          setErrorAlert(true);
         }
       } catch (e) {
         console.log(e.message);
@@ -75,11 +85,14 @@ const AddBookModal = () => {
     }
   };
 
+  // State variable for managing modal visibility
   const [show, setShow] = useState(false);
 
+  // Event handler for closing and opening the modal
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  // JSX for rendering the component
   return (
     <>
       <Button variant="primary" onClick={handleShow}>
@@ -99,6 +112,7 @@ const AddBookModal = () => {
               type="text"
               placeholder="Inserisci autore"
             />
+
             <input
               className="m-2"
               onChange={onChangeHandleInput}
@@ -106,6 +120,7 @@ const AddBookModal = () => {
               type="text"
               placeholder="Inserisci titolo"
             />
+
             <input
               className="m-2"
               onChange={onChangeHandleInput}
@@ -113,12 +128,14 @@ const AddBookModal = () => {
               type="text"
               placeholder="Inserisci editore"
             />
+
             <input
               className="m-2"
               onChange={onChangeHandleFile}
               type="file"
               name="uploadImg"
             />
+
             <input
               className="m-2"
               onChange={onChangeHandleInput}
@@ -126,6 +143,7 @@ const AddBookModal = () => {
               name="price"
               placeholder="Inserisci prezzo(cifra)"
             />
+
             <input
               className="m-2"
               onChange={onChangeHandleInput}
@@ -133,6 +151,7 @@ const AddBookModal = () => {
               name="description"
               placeholder="Inserisci descrizione"
             />
+
             <input
               className="m-2"
               onChange={onChangeHandleInput}
@@ -140,7 +159,7 @@ const AddBookModal = () => {
               name="pubDate"
               placeholder="Inserisci data"
             />
-          
+
             <button type="submit" className="btn btn-primary pt-2 m-2">
               Aggiungi Libro
             </button>
@@ -153,9 +172,10 @@ const AddBookModal = () => {
         </Modal.Footer>
       </Modal>
 
+      {/* Alert component for displaying success/error messages */}
       <Alert
         show={showAlert}
-        variant={errorAlert ? "danger" : "success"} 
+        variant={errorAlert ? "danger" : "success"}
         onClose={() => setShowAlert(false)}
         dismissible
         style={{

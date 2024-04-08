@@ -3,19 +3,25 @@ import AxiosClient from "../client/client";
 import { useNavigate } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
 
+// LoginForm component for user login
 const LoginForm = ({ toggleForm }) => {
+  // State variables for managing form data and error
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(null); 
+  const [error, setError] = useState(null);
 
+  // Initializing AxiosClient and useNavigate
   const client = new AxiosClient();
   const navigate = useNavigate();
 
+  // Function to handle form submission
   const onSubmit = async (e) => {
     try {
       e.preventDefault();
+      // Sending login request
       const response = await client.post("/login", formData);
       console.log(response.token);
       if (response.token) {
+        // Storing token in local storage and redirecting to home page
         localStorage.setItem("auth", JSON.stringify(response.token));
         setTimeout(() => {
           navigate("/home");
@@ -30,6 +36,7 @@ const LoginForm = ({ toggleForm }) => {
     }
   };
 
+  // Function to handle input change
   const onChangeInput = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -38,23 +45,29 @@ const LoginForm = ({ toggleForm }) => {
     });
   };
 
+  // Function to handle GitHub login
   const handleLoginWithGithub = () => {
     window.location.href = `${process.env.REACT_APP_SERVER_BASE_URL}/auth/github`;
   };
-  const [showError, setShowError] = useState(true);
 
+  // State variable and function to manage error alert visibility
+  const [showError, setShowError] = useState(true);
   const handleCloseError = () => {
     setShowError(false);
   };
+
+  // Style for positioning error alert
   const alertStyle = {
     position: "absolute",
     top: "550px",
     left: "45px",
   };
 
+  // JSX for rendering the component
   return (
     <>
       <h2 className="text-center text-primary mt-5 fw-bold">Epibook Login</h2>
+
       {error && showError && (
         <div style={alertStyle} className="alert alert-danger" role="alert">
           {error}
@@ -66,6 +79,7 @@ const LoginForm = ({ toggleForm }) => {
           ></button>
         </div>
       )}
+
       <form onSubmit={onSubmit} className="card-body p-lg-5">
         <div className="text-center">
           <img
@@ -113,6 +127,7 @@ const LoginForm = ({ toggleForm }) => {
             Registrati ora!
           </a>
         </div>
+
         <button
           type="button"
           onClick={handleLoginWithGithub}

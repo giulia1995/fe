@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 
+// SignupForm component for user registration
 const SignupForm = ({ toggleForm }) => {
+  // State variables for managing form data and error
   const [signupFormData, setSignupFormData] = useState({});
-  const [error, setError] = useState(null); // Variabile di stato per gestire gli errori
+  const [error, setError] = useState(null);
 
+  // Function to handle input change
   const onChangeInput = (e) => {
     const { name, value } = e.target;
+    // Converting age input value to number
     const newValue = name === "age" ? Number(value) : value;
     setSignupFormData({
       ...signupFormData,
@@ -13,9 +17,11 @@ const SignupForm = ({ toggleForm }) => {
     });
   };
 
+  // Function to handle form submission
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Sending registration request
       const response = await fetch(
         `${process.env.REACT_APP_SERVER_BASE_URL}/createUser`,
         {
@@ -27,6 +33,7 @@ const SignupForm = ({ toggleForm }) => {
         }
       );
 
+      // Handling response status
       if (!response.ok) {
         throw new Error(
           `La richiesta non è andata a buon fine. Stato: ${response.status} ${response.statusText}`
@@ -40,17 +47,22 @@ const SignupForm = ({ toggleForm }) => {
     }
   };
 
+  // Style for positioning error alert
   const alertStyle = {
     position: "absolute",
     top: "610px",
     left: "0px",
-    
   };
 
+  // JSX for rendering the component
   return (
     <>
       {error && (
-        <div style={alertStyle} className="text-center alert alert-danger" role="alert">
+        <div
+          style={alertStyle}
+          className="text-center alert alert-danger"
+          role="alert"
+        >
           {error}
         </div>
       )}
