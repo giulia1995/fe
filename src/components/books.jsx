@@ -66,10 +66,10 @@ const BooksFunction = () => {
         ) : (
           // Render book cards if data is successfully fetched
           books.map((book) => (
-            <Col className="col-lg-3 col-md-6 col-sm-12 mb-4" key={book._id}>
+            <Col className="col-lg-4 col-md-6 col-sm-12 mb-4" key={book._id}>
               <Card
                 className="mt-5 h-100 shadow-lg p-3 bg-body-tertiary rounded"
-                style={{ width: "18rem" }}
+                
               >
                 <Card.Img variant="top" src={book.cover} />
                 <Card.Body className="d-flex flex-column">

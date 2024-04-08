@@ -7,6 +7,7 @@ import { jwtDecode } from "jwt-decode";
 const Home = () => {
     const session = JSON.parse(localStorage.getItem('auth'))
     const decodedSession = session ? jwtDecode(session) : null 
+    console.log(decodedSession)
 
 
     return (
